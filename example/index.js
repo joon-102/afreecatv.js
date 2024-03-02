@@ -1,15 +1,3 @@
-# afreecatv.js
-### afreecaTV's unofficial API library 🍕
-
-# 💻 설치
-### Installation  
-It only works with Node.js version 18 or higher.
-```
-npm install afreecatv.js
-```
-
-# 📜 예시
-```js
 const { Client } = require('afreecatv.js');
 
 (async () => {
@@ -31,4 +19,3 @@ const { Client } = require('afreecatv.js');
     // 2 . 프로세스 종료
     await client.close()
 })()
-```

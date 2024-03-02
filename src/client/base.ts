@@ -17,7 +17,6 @@ class Base {
     public async bootstrapping() {
         this.browser = await playwright.chromium.launch(this.options.browser)
         this.context = await this.browser.newContext(this.options.context)
-        this.page = await this.context.newPage()
     }
 
     public async close() {
