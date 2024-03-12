@@ -1,5 +1,3 @@
-// src\client\index.ts
-
 import Base, { ClientOptions } from "./base"
 
 import { login } from "../api/auth";
@@ -46,7 +44,7 @@ class afreecatv extends Base {
                 throw new Error("브라우저가 실행되고 있지 않습니다.")
             }
 
-            await login(this.browser, this.LOGIN_URL, id, password);
+            return await login(this.browser, this.LOGIN_URL, id, password);
         },
 
     }

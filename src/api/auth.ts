@@ -5,13 +5,15 @@ export const login = async (browser: Browser, loginUrl: string, id: string, pass
 
     await page.goto(loginUrl);
 
-    await page.waitForSelector('input#uid');
-    await page.waitForSelector('input#password');
+    const idInputSelector = 'input#uid', passwordInputSelector = 'input#password';
 
-    await page.fill('input#uid', id);
-    await page.fill('input#password', password);
+    await page.waitForSelector(idInputSelector);
+    await page.waitForSelector(passwordInputSelector);
 
-    await page.click('body > form:nth-child(11) > div > fieldset > p.login_btn > button');
+    await page.fill(idInputSelector, id);
+    await page.fill(passwordInputSelector, password);
+
+    await page.keyboard.press("Enter");
 
     await page.close()
 };
