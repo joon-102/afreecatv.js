@@ -1,5 +1,3 @@
-// src\client\base.ts
-
 import playwright, { Browser, BrowserContext, BrowserContextOptions, LaunchOptions, Page } from "playwright"
 
 export interface ClientOptions {
@@ -8,9 +6,9 @@ export interface ClientOptions {
 }
 
 class Base {
-    protected browser?: Browser
-    protected context?: BrowserContext
-    protected page?: Page
+    protected browser?: Browser;
+    protected context?: BrowserContext;
+    protected page?: Page;
 
     constructor(private options: ClientOptions) { }
 
