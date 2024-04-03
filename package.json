@@ -1,0 +1,39 @@
+{
+  "name": "afreecatv.js",
+  "version": "1.1.0",
+  "description": "afreecaTV's unofficial API library",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node test/test.js",
+    "build": "tsc -w",
+    "lint": "prettier --check . && eslint . --ext .ts && cspell '**/*'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joon-102/afreecatv.js.git"
+  },
+  "keywords": [
+    "afreecatv"
+  ],
+  "author": "김준혁",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/joon-102/afreecatv.js/issues",
+    "email": "joon_1@outlook.kr"
+  },
+  "homepage": "https://github.com/joon-102/afreecatv.js#readme",
+  "dependencies": {
+    "playwright": "^1.42.0"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^21.1.6",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-prettier": "^5.1.3",
+    "prettier": "^3.2.5"
+  }
+}
