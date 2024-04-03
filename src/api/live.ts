@@ -36,7 +36,7 @@ export const info = async (browser: Browser, bj: string): Promise<LiveInfo | und
 
     await page.close()
 
-    return liveInfo
+    return liveInfo;
 };
 
 const getTextContent = async (page: Page, selector: string): Promise<string | undefined> => {

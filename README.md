@@ -2,20 +2,15 @@
 
 ![Image](https://img.shields.io/npm/v/afreecatv.js?color=%2351F9C0&label=afreecatv.js)
 ![Image](https://img.shields.io/npm/dt/afreecatv.js.svg?color=%2351FC0&maxAge=3600)
-
-#
-
 ![Image](https://nodei.co/npm/afreecatv.js.png?downloads=true&downloadRank=true&stars=true)
 <br>
 
 afreecaTV's unofficial API library 🍕
 
 ## <i class="fa-solid fa-download"></i> **Installation**
-
 ```bash
 $ npm install afreecatv.js
 ```
-
 ## <i class="fa-solid fa-bookmark"></i> **Usage**
 
 ```js
