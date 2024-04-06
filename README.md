@@ -34,7 +34,7 @@ const { Client } = require('afreecatv.js');
     const live = await client.live.info("gosegu2");
     console.log(live);
 
-    // 2 . 프로세스 종료
+    // 3 . 프로세스 종료
     await client.close();
 })()
 ```
