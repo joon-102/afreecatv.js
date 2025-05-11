@@ -3,23 +3,21 @@ import Base, { ClientOptions } from "./base"
 import { channel } from "../api/search";
 import { info } from "../api/live";
 
-interface StreamerInfo {
-    StreamerId?: string;
-    StreamerName?: string;
-    StreamerThumbnail?: string;
-    StreamerFavorites?: string;
-    StreamerSubscribe?: string;
-    StreamerExplanation?: string;
+export interface StreamerInfo {
+    streamerId: string | null;
+    streamerName: string | null;
+    streamerThumbnail: string | null;
+    streamerFavorites: string | null;
+    streamerSubscribe: string | null;
+    streamerExplanation: string | null;
 }
 
 interface LiveInfo {
-    Streamer: StreamerInfo;
-    StartTime?: string;
-    Resolution?: string;
-    Quality?: string;
-    Stations?: string;
+    streamerInfo: StreamerInfo | null;
+    streamUrl: string;
+    streamTitle: string | null;
+    thumbnailUrl: string;
 }
-
 const defaultOptions: ClientOptions = {
     browser: {},
     context: {
@@ -30,14 +28,14 @@ const defaultOptions: ClientOptions = {
     },
 };
 
-class AfreecaTV extends Base {
+class Soop extends Base {
 
     constructor(options?: ClientOptions) {
         super({ ...defaultOptions, ...options })
     }
 
     public readonly search = {
-        channel: async (bj: string): Promise<StreamerInfo> => {
+        channel: async (bj: string): Promise<StreamerInfo | null> => {
             if (!this.browser) {
                 throw new Error("브라우저가 실행되고 있지 않습니다.");
             }
@@ -47,7 +45,7 @@ class AfreecaTV extends Base {
     };
     
     public readonly live = {
-        info: async (bj: string): Promise<LiveInfo | undefined | unknown> => {
+        info: async (bj: string): Promise<LiveInfo | unknown> => {
             if (!this.browser) {
                 throw new Error("브라우저가 실행되고 있지 않습니다.");
             }
@@ -57,4 +55,4 @@ class AfreecaTV extends Base {
     };
 }
 
-export default AfreecaTV
+export default Soop;

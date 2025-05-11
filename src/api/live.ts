@@ -2,48 +2,41 @@ import { Browser, Page } from 'playwright';
 import { channel, StreamerInfo } from "../api/search";
 
 interface LiveInfo {
-    Streamer: StreamerInfo | undefined;
-    StartTime?: string;
-    Resolution?: string;
-    Quality?: string;
-    Stations?: string;
-    Title?: string;
-    Thumbnail?: string;
+    streamerInfo: StreamerInfo | null;
+    streamUrl: string;
+    streamTitle: string | null;
+    thumbnailUrl: string;
 }
 
-export const info = async (browser: Browser, bj: string): Promise<LiveInfo | undefined> => {
+export const info = async (browser: Browser, bj: string): Promise<LiveInfo | null> => {
     const page: Page = await browser.newPage();
-    await page.goto(`https://play.afreecatv.com/${bj}`);
-    await page.waitForLoadState('networkidle');
-
-    const callbackurl: string = page.url();
-    const Directory: string = callbackurl.split(`https://play.afreecatv.com/${bj}`)[1];
-
-    if (callbackurl.includes("not_found") || Directory.includes("null")) {
-        await page.close();
-        return undefined;
-    }
-
-    const liveInfo: LiveInfo = {
-        Streamer: await channel(browser, bj),
-        StartTime: await getTextContent(page, "#player_area > div.broadcast_information > div.text_information > ul > li:nth-child(1) > span"),
-        Resolution: await getTextContent(page, "#player_area > div.broadcast_information > div.text_information > ul > li:nth-child(3) > span"),
-        Quality: await getTextContent(page, "#player_area > div.broadcast_information > div.text_information > ul > li:nth-child(4) > span"),
-        Stations: `https://bj.afreecatv.com/${bj}`,
-        Title: await getTextContent(page, "#player_area > div.broadcast_information > div.text_information > div.broadcast_title > span"),
-        Thumbnail: `https://liveimg.afreecatv.com/h/${Directory.replace("/", "")}.webp`
-    }
-
-    await page.close()
-
-    return liveInfo;
-};
-
-const getTextContent = async (page: Page, selector: string): Promise<string | undefined> => {
     try {
-        const element = await page.$(selector);
-        return await element?.textContent() || undefined;
-    } catch (_) {
-        return undefined;
+        const url = `https://play.sooplive.co.kr/${bj}`;
+        await page.goto(url , { waitUntil: 'networkidle' })
+
+        const currentUrl = page.url();
+        const pathSuffix = currentUrl.replace(url, "");
+
+        if (currentUrl.includes("not_found") || pathSuffix.includes("null")) {
+            return null;
+        }
+
+        const directory = pathSuffix.replace("/", "");
+        const [streamerInfo, streamTitle] = await Promise.all([
+            channel(browser, bj),
+            page.$("#infoTitle").then(el => el?.textContent() ?? null)
+        ]);
+
+        return {
+            streamerInfo,
+            streamUrl: `https://ch.sooplive.co.kr/${bj}`,
+            streamTitle,
+            thumbnailUrl: `https://liveimg.sooplive.co.kr/h/${directory}.webp`,
+        };
+    } catch (error) {
+        console.error(`[soop.js] Error fetching live info for ${bj}:`, error);
+        return null;
+    }  finally {
+        await page.close();
     }
 };

@@ -1,60 +1,61 @@
 import { Browser, Page } from 'playwright';
 
 export interface StreamerInfo {
-  StreamerId?: string;
-  StreamerName?: string;
-  StreamerThumbnail?: string;
-  StreamerFavorites?: string;
-  StreamerSubscribe?: string;
-  StreamerExplanation?: string;
+  streamerId: string | null;
+  streamerName: string | null;
+  streamerThumbnail: string | null;
+  streamerFavorites: string | null;
+  streamerSubscribe: string | null;
+  streamerExplanation: string | null;
 }
 
 export const channel = async (browser: Browser, bj: string): Promise<StreamerInfo> => {
   const page: Page = await browser.newPage();
-  await page.goto(`https://bj.afreecatv.com/${bj}`);
+  await page.goto(`https://ch.sooplive.co.kr/${bj}`);
 
-  const streamerInfo: StreamerInfo = {
-    StreamerId: await getStreamerId(page),
-    StreamerName: await getTextContent(page, "#bs-navi > div > article.article_bj_box > section > div > div > h2"),
-    StreamerThumbnail: await getTextContent(page, "#bs-contents > article.bs-contents-header.expansion > section.bs-infomation_wrap > div > div.items_wrap > div > button.favor > span"),
-    StreamerFavorites: await getStreamerThumbnail(page),
-    StreamerSubscribe: await getTextContent(page, "#bs-contents > article.bs-contents-header.expansion > section.bs-infomation_wrap > div > div.items_wrap > div > button.subscribe > span"),
-    StreamerExplanation: await getTextContent(page, "#bs-contents > article.bs-contents-header.expansion > section.bs-infomation_wrap > div > div.title-wrap > div.explanation > p > span")
-  };
+  const [streamerId, streamerName, streamerThumbnail, streamerFavorites, streamerSubscribe, streamerExplanation] = await Promise.all([
+    getStreamerId(page),
+    getTextContent(page, "#bs-navi > div > article.article_bj_box > section > div > div > h2"),
+    getStreamerThumbnail(page),
+    getTextContent(page, "#bs-contents > article.bs-contents-header.expansion > section.bs-infomation_wrap > div > div.items_wrap > div > button.favor > span"),
+    getTextContent(page, "#bs-contents > article.bs-contents-header.expansion > section.bs-infomation_wrap > div > div.items_wrap > div > button.subscribe > span"),
+    getTextContent(page, "#bs-contents > article.bs-contents-header.expansion > section.bs-infomation_wrap > div > div.title-wrap > div.explanation > p > span")
+  ]);
 
   await page.close();
-
-  return streamerInfo;
+  
+  return {
+    streamerId,
+    streamerName,
+    streamerThumbnail,
+    streamerFavorites,
+    streamerSubscribe,
+    streamerExplanation,
+  };
 };
 
-const getStreamerId = async (page: Page): Promise<string | undefined> => {
-  try {
-    const element: string = await getTextContent(page, "#bs-navi > div > article.article_bj_box > section > div > div > span");
-    if (element !== undefined) {
-      return element.replace(/^./, '').replace(/.$/, '');
-    } else {
-      return undefined;
-    }
-  } catch (_) {
-    return undefined;
-  }
-}
-
-const getStreamerThumbnail =  async (page: Page): Promise<string | undefined> => {
-  try {
-    const element : any = await page.$("#bs-navi > div > article.article_bj_box > section > a > div > img");
-    const thumbnail : string =  await element?.evaluate((node: { getAttribute: (arg0: string) => any; }) => node.getAttribute('src'));
-    return thumbnail.replace("//profile" , "https://profile") || undefined
-  } catch (_) {
-    return undefined;
-  }
-}
-
-const getTextContent = async (page: Page, selector: string): Promise<string | undefined | any> => {
+const getTextContent = async (page: Page, selector: string): Promise<string | null> => {
   try {
     const element = await page.$(selector);
-    return element?.textContent() || undefined;
-  } catch (_) {
-    return undefined;
+    return element ? await element.textContent() : null;
+  } catch {
+    return null;
+  }
+};
+
+const getStreamerId = async (page: Page): Promise<string | null> => {
+  const element = await getTextContent(page, "#bs-navi > div > article.article_bj_box > section > div > div > span");
+  return element ? element.slice(1, -1) : null;
+};
+
+const getStreamerThumbnail = async (page: Page): Promise<string | null> => {
+  try {
+    const element = await page.$("#bs-navi > div > article.article_bj_box > section > a > div > img");
+    if (!element) return null;
+
+    const src = await element.evaluate(node => node.getAttribute('src'));
+    return src ? src.replace("//profile", "https://profile") : null;
+  } catch {
+    return null;
   }
 };

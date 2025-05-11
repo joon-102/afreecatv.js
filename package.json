@@ -1,39 +1,22 @@
 {
-  "name": "afreecatv.js",
-  "version": "1.1.0",
-  "description": "afreecaTV's unofficial API library",
+  "name": "soop.js",
+  "version": "1.1.1",
+  "description": "대한민국의 인터넷 방송 플랫폼 SOOP(숲)의 비공식 API 라이브러리",
   "main": "dist/index.js",
   "scripts": {
-    "start": "node test/test.js",
-    "build": "tsc -w",
-    "lint": "prettier --check . && eslint . --ext .ts && cspell '**/*'"
+    "build": "tsc -w"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/joon-102/afreecatv.js.git"
-  },
+  "repository": "https://github.com/joon-102/soop.js",
   "keywords": [
-    "afreecatv"
+    "soop",
+    "soop-api",
+    "unofficial-api",
+    "korean-platform",
+    "livestream"
   ],
-  "author": "김준혁",
+  "author": "joon-102 <taejeong654@gmail.com>",
   "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/joon-102/afreecatv.js/issues",
-    "email": "joon_1@outlook.kr"
-  },
-  "homepage": "https://github.com/joon-102/afreecatv.js#readme",
   "dependencies": {
-    "playwright": "^1.42.0"
-  },
-  "devDependencies": {
-    "@types/jsdom": "^21.1.6",
-    "@typescript-eslint/eslint-plugin": "^7.1.0",
-    "@typescript-eslint/parser": "^7.1.0",
-    "eslint": "^8.57.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-prettier": "^5.1.3",
-    "prettier": "^3.2.5"
+    "playwright": "^1.52.0"
   }
 }
