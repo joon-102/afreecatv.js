@@ -1,7 +1,7 @@
 # **soop.js**
 
-![Image](https://img.shields.io/npm/v/afreecatv.js?color=%2351F9C0&label=soop.js)
-![Image](https://img.shields.io/npm/dt/afreecatv.js.svg?color=%2351FC0&maxAge=3600)
+![Image](https://img.shields.io/npm/v/soop.js?color=%2351F9C0&label=soop.js)
+![Image](https://img.shields.io/npm/dt/soop.js.svg?color=%2351FC0&maxAge=3600)
 <br>
 
 대한민국의 인터넷 방송 플랫폼 SOOP(숲)의 비공식 API 라이브러리 🍕
